@@ -30,10 +30,21 @@ const byte SPI_CS_PIN = 16;
 const byte HTTPD_PORT = 80;
 const float ANALOG_REFERENCE = 3.3;
 /**  
- * Default desired heater temperature if no
+ * Default desired heater temperature in degrees celsius if no
  * value is set in the EEPROM
  */
 const byte DEFAULT_HEATER_TEMP = 85;
+
+
+/**
+ * Fixed offset to apply to the output of tempSensor.getThmc()
+ * 
+ * This can't go into SettingsStorage.ino because TempSensor.ino is processed
+ * after that...
+ */
+ // TODO: make sure all of these values get initialized
+double offset;
+
 
 /**
  * End configuration constants

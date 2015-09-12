@@ -7,6 +7,7 @@
 HighTempMCP320x tempSensor(SPI_CS_PIN, 0, 1);
 
 
+
 void setupTempSensor() {
 
   /* Some ADCs use 3.3.V, others use 5V as analog reference */
@@ -21,7 +22,7 @@ void updateTempSensor() {
   double roomTemperature = tempSensor.getRoomTmp();
   Serial.print("Room Temp:");
   Serial.println(roomTemperature);
-  currentTemperature = tempSensor.getThmc();
+  currentTemperature = tempSensor.getThmc() + offset;
   Serial.print("Temp: \n");
   Serial.print(currentTemperature);
   Serial.print("\n");
