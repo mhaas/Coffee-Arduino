@@ -3,10 +3,12 @@
  *
  */
 
+const double DEFAULT_HEATER_KP = 2;
+const double DEFAULT_HEATER_KI = 5;
+const double DEFAULT_HEATER_KD = 1;
+
 double desiredTemperature, currentTemperature, pidOutput;
-double kP = 2;
-double kI = 5;
-double kD = 1;
+double kP, kI, kD;
 
 
 /*

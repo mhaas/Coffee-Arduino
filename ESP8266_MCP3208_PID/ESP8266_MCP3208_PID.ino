@@ -43,7 +43,7 @@ const byte DEFAULT_HEATER_TEMP = 85;
  * after that...
  */
  // TODO: make sure all of these values get initialized
-double offset;
+double tempOffset;
 
 
 /**
@@ -59,6 +59,8 @@ void setup() {
   // Initialize and reset pins
   pinMode(LED_PIN, OUTPUT);
   digitalWrite(LED_PIN, LOW);
+
+  setupSettings();
 
   setupHeaterPID();
   setupHttpd();

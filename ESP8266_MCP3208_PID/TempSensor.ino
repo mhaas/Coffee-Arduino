@@ -17,17 +17,8 @@ void setupTempSensor() {
 }
 
 void updateTempSensor() {
-
   // Have to call getRoomTemp first..
-  double roomTemperature = tempSensor.getRoomTmp();
-  Serial.print("Room Temp:");
-  Serial.println(roomTemperature);
-  currentTemperature = tempSensor.getThmc() + offset;
-  Serial.print("Temp: \n");
-  Serial.print(currentTemperature);
-  Serial.print("\n");
-
-
-
+  tempSensor.getRoomTmp();
+  currentTemperature = tempSensor.getThmc() + tempOffset;
 }
 
