@@ -17,6 +17,9 @@ void setupTempSensor() {
 }
 
 void updateTempSensor() {
+
+  // TODO: add a check to only sample every X ms, no-nop otherwise
+  
   // Have to call getRoomTemp first..
   tempSensor.getRoomTmp();
   currentTemperature = tempSensor.getThmc() + tempOffset;
