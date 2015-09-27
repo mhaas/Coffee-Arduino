@@ -1,12 +1,14 @@
 /*
  * Initialize the temperature sensor library.
- * This is a version of the regular Seeed Studio HighTemp library modified to
+ * This uses a version of the regular Seeed Studio HighTemp library modified to
  * use the MCP3208 ADC and a configurable analog reference voltage.
  */
 
 HighTempMCP320x tempSensor(SPI_CS_PIN, 0, 1);
 
 
+int lastRead = 0;
+const int TEMP_INTERVALL = 500;
 
 void setupTempSensor() {
 
@@ -18,10 +20,21 @@ void setupTempSensor() {
 
 void updateTempSensor() {
 
-  // TODO: add a check to only sample every X ms, no-nop otherwise
+  // Sample every TEMP_INTERVALL ms
+  int now = millis();
+  if (now > lastRead + TEMP_INTERVALL) {
+    lastRead = now;
+    // Have to call getRoomTmp first..
+    double roomtmp = tempSensor.getRoomTmp();
+    currentTemperature = tempSensor.getThmc() + tempOffset;
+#ifdef DBGLOG
+    DEBUG.print("Current Temperature: ");
+    DEBUG.println(currentTemperature);
+    DEBUG.print("Current roomTemp: ");
+    DEBUG.println(roomtmp);
+#endif
+  }
   
-  // Have to call getRoomTemp first..
-  tempSensor.getRoomTmp();
-  currentTemperature = tempSensor.getThmc() + tempOffset;
 }
+
 

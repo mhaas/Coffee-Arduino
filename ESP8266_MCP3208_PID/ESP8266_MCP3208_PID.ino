@@ -33,7 +33,7 @@ const float ANALOG_REFERENCE = 3.3;
  * Default desired heater temperature in degrees celsius if no
  * value is set in the EEPROM
  */
-const byte DEFAULT_HEATER_TEMP = 85;
+const byte DEFAULT_HEATER_TEMP = 50;
 
 
 /**
@@ -56,25 +56,29 @@ void setup() {
   // Initialize Serial with 9600 baud because my USB<->Serial can't handle more
   DEBUG.begin(9600);
 
+  // TODO: are the relays low-active?
+  // https://arduino-info.wikispaces.com/ArduinoPower
   // Initialize and reset pins
-  pinMode(LED_PIN, OUTPUT);
   digitalWrite(LED_PIN, LOW);
+  pinMode(LED_PIN, OUTPUT);
 
   setupSettings();
 
+
+  setupWifi();
+
+  // TODO: PID only starts working if wifi is connected
   setupHeaterPID();
   setupHttpd();
   setupTempSensor();
-  setupWifi();
 }
 
 // the loop function runs over and over again forever
 void loop() {
-  // TODO: don't update tempsensor too often,
-  // or the ADC will return bogus values
   updateTempSensor();
   updateHeaterPID();
   updateWifi();
 }
+
 
 

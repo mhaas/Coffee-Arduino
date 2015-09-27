@@ -85,6 +85,7 @@ void setDesiredTemperature(double _temp) {
   config.desiredTemperature = _temp;
   EEPROM.put(CONFIG_DATA_OFFSET, config);
   EEPROM.commit();
+  desiredTemperature = _temp;
 }
 
 void setTempOffset(double _tempOffset) {
@@ -94,6 +95,7 @@ void setTempOffset(double _tempOffset) {
   EEPROM.put(CONFIG_DATA_OFFSET, config);
   EEPROM.commit();
 }
+
 
 
 

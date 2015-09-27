@@ -51,5 +51,7 @@ void handleSet() {
       httpd.send(500, "text/plain", error);
     }
   }
+  httpd.send(200, "text/plain", "all set!");
 }
+
 

@@ -10,6 +10,8 @@ const double DEFAULT_HEATER_KD = 1;
 double desiredTemperature, currentTemperature, pidOutput;
 double kP, kI, kD;
 
+const int RELAY_ON = LOW;
+const int RELAY_OFF = HIGH;
 
 /*
  * Initialize the PID library. Note that currentTemperate, pidOutput and desiredTemperature
@@ -17,7 +19,7 @@ double kP, kI, kD;
  * library sees the changes automatically.
  */
 
-PID heaterPID(&currentTemperature, &pidOutput, &desiredTemperature, kP, kI, kD, DIRECT);
+PID* heaterPID;
 
 
 /** Set the window size for the time proportioning control.
@@ -31,7 +33,7 @@ PID heaterPID(&currentTemperature, &pidOutput, &desiredTemperature, kP, kI, kD, 
  *  This is similar to a slow version of PWM.
  */
 
-const int HEATER_WINDOW_SIZE = 5000;
+const int HEATER_WINDOW_SIZE = 2000;
 
 
 /**
@@ -43,24 +45,37 @@ unsigned long windowStartTime;
 
 void setupHeaterPID() {
 
+  // HACK: init here to get kP, kI and kD in - these are are read from config after the first object
+  // initialization
+  heaterPID = new PID(&currentTemperature, &pidOutput, &desiredTemperature, kP, kI, kD, DIRECT);
   pinMode(HEATER_RELAY_PIN, OUTPUT);
-  digitalWrite(HEATER_RELAY_PIN, LOW);
+  digitalWrite(HEATER_RELAY_PIN, RELAY_OFF);
+
+#ifdef DBGLOG
+  DEBUG.print("kP is:");
+  DEBUG.println(kP);
+  DEBUG.print("kI is:");
+  DEBUG.println(kI);
+  DEBUG.print("kD is:");
+  DEBUG.println(kD);
+#endif
 
   windowStartTime = millis();
 
   // Initialize PID
 
   // Set the period of the relay control signal
-  heaterPID.SetOutputLimits(0, HEATER_WINDOW_SIZE);
+  heaterPID->SetOutputLimits(0, HEATER_WINDOW_SIZE);
 
   // turn the PID on
   // TODO: initialize the temperature sensor variables
-  heaterPID.SetMode(AUTOMATIC);
+  heaterPID->SetMode(AUTOMATIC);
 
 }
 
 void updateHeaterPID() {
-  heaterPID.Compute();
+  heaterPID->Compute();
+
   // TODO: what is the sample rate of the PID?
   // does it make sense to update the pidOutput more than once during a period?
 
@@ -71,17 +86,23 @@ void updateHeaterPID() {
     //time to shift the Relay Window
     // TODO: just use current timestamp here?
     windowStartTime += HEATER_WINDOW_SIZE;
+    DEBUG.print("Starting new window. PID says: ");
+    DEBUG.println(pidOutput);
+    DEBUG.print("Desired Temp:");
+    DEBUG.println(desiredTemperature);
+    
   }
-
+  
   // Now decide if we are in the duty cycle of our period, i.e. if we want
   // to turn the relay for the header on or off
-  if (pidOutput < currentWindowElapsed) {
-    digitalWrite(HEATER_RELAY_PIN, HIGH);
+  if (currentWindowElapsed > pidOutput) {
+    digitalWrite(HEATER_RELAY_PIN, RELAY_OFF);
   }
   else {
-    digitalWrite(HEATER_RELAY_PIN, LOW);
+    digitalWrite(HEATER_RELAY_PIN, RELAY_ON);
   }
 
 
 }
+
 
