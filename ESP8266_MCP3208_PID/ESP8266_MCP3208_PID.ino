@@ -19,6 +19,9 @@
 
 #define DEBUG Serial
 
+#define DBGLOG 1
+
+
 /**
  * Some configuration constants
  */
@@ -68,6 +71,7 @@ void setup() {
   setupWifi();
 
   // TODO: PID only starts working if wifi is connected
+  // So add timeout for Wifi
   setupHeaterPID();
   setupHttpd();
   setupTempSensor();
@@ -75,6 +79,7 @@ void setup() {
 
 // the loop function runs over and over again forever
 void loop() {
+  updateHttpd();
   updateTempSensor();
   updateHeaterPID();
   updateWifi();
