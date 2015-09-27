@@ -54,4 +54,7 @@ void handleSet() {
   httpd.send(200, "text/plain", "all set!");
 }
 
+void updateHttpd() {
+  httpd.handleClient();
+}
 
