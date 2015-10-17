@@ -2,6 +2,7 @@
 
 #include "WebServer.h"
 #include <Arduino.h>
+#include <FS.h>
 
 WebServer::WebServer(SettingsStorage* _settings) {
   settings = _settings;
@@ -12,22 +13,20 @@ WebServer::WebServer(SettingsStorage* _settings) {
  */
 
 void WebServer::begin() {
+  
+  SPIFFS.begin();
 
-  httpd = ESP8266WebServer(HTTPD_PORT);
+  httpd = ProtectedESP8266WebServer(HTTPD_PORT);
   /* Set up routing for the web server */
   // std::bind wraps a non-static method call so we can pass it as
   // a regular function pointer
   // See e.g. http://arduino.stackexchange.com/questions/14157/passing-class-member-function-as-argument
-  httpd.on("/", std::bind(&WebServer::handleRoot, this));
+  httpd.serveStatic("/", SPIFFS, "/wwwroot/index.html");
+  httpd.serveStatic("/smoothie.js", SPIFFS, "/wwwroot/smoothie.js");
   httpd.on("/set", std::bind(&WebServer::handleSet, this));
   httpd.on("/get", std::bind(&WebServer::handleGet, this));
   httpd.onNotFound(std::bind(&WebServer::handleNotFound, this));
   httpd.begin();
-}
-
-void WebServer::handleRoot() {
-  String message = "Hello World!";
-  httpd.send ( 200, "text/plain", message );
 }
 
 void WebServer::handleNotFound () {
@@ -43,9 +42,6 @@ void WebServer::handleSet() {
   // Iterate over all keys
   // TODO: handle remaining keys
   for (int i = 0; i < httpd.args(); i++) {
-
-    // arg() normally returns a String object, but
-    // the character array (ironically) is easier to work with
 
     key = httpd.argName(i);
     value = httpd.arg(i);
@@ -86,10 +82,6 @@ void WebServer::handleGet() {
 
   // see http://blog.benoitblanchon.fr/arduino-json-v5-0/
   // for a discussion on static VS dynamic allocation on embedded platforms
-
-  //const size_t  buf_size = 1024;
-  //char buf[buf_size];
-  //object.printTo(buf, buf_size);
 
   // On the other hand, send() wants a String
   String buf;
