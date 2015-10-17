@@ -9,8 +9,6 @@ const size_t CONFIG_VERSION_LENGTH = 4;
 class SettingsStorage {
 
   public:
-    //SettingsStorage();
-    //~SettingsStorage();
     void begin();
     void update();
     

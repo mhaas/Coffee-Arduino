@@ -16,7 +16,7 @@ void WebServer::begin() {
   
   SPIFFS.begin();
 
-  httpd = ProtectedESP8266WebServer(HTTPD_PORT);
+  httpd = ESP8266WebServer(HTTPD_PORT);
   /* Set up routing for the web server */
   // std::bind wraps a non-static method call so we can pass it as
   // a regular function pointer
