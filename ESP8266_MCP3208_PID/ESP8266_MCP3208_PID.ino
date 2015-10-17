@@ -7,10 +7,12 @@
 
 
 // Explicitly include dependencies of included libraries so that
-// linking woks
+// linking works
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
+
+#include <FS.h>
 
 #include <SPI.h>
 #include <MCP3208.h>
