@@ -73,7 +73,7 @@ void HeaterPID::update() {
   }
 }
 
-void HeaterPID::requestAutoTune() {
+void HeaterPID::triggerAutoTune() {
   aTune = new PID_ATune(settings->getCurrentTemperature(), settings->getDesiredTemperature());
   // 0: PI, 1: PID
   aTune->SetControlType(0);

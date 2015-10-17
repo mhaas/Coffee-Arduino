@@ -13,7 +13,7 @@ WebServer::WebServer(SettingsStorage* _settings) {
  */
 
 void WebServer::begin() {
-  
+
   SPIFFS.begin();
 
   httpd = ESP8266WebServer(HTTPD_PORT);
@@ -93,5 +93,17 @@ void WebServer::handleGet() {
 
 void WebServer::update() {
   httpd.handleClient();
+}
+
+void WebServer::handleTrigger(ESP8266WebServer::THandlerFunction trigger) {
+  // Small wrapper around a trigger which calls httpd.send() to end the connection
+  // From my reading of the source code, this does not happen automatically
+  trigger();
+  httpd.send(200, "text/plain", "OK");
+}
+
+// Execute a callback if the given uri is requested
+void WebServer::addTrigger(char* uri, ESP8266WebServer::THandlerFunction trigger) {
+  httpd.on(uri, std::bind(&WebServer::handleTrigger, this, trigger));
 }
 

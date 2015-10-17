@@ -17,6 +17,7 @@ class WebServer {
     WebServer(SettingsStorage* settings);
     void begin();
     void update();
+    void addTrigger(char* uri, ESP8266WebServer::THandlerFunction trigger);
 
   private:
     const char* DESIRED_TEMPERATURE_KEY = "desired_temp";
@@ -27,6 +28,7 @@ class WebServer {
     void handleNotFound();
     void handleSet();
     void handleGet();
+    void handleTrigger(ESP8266WebServer::THandlerFunction trigger);
 };
 
 

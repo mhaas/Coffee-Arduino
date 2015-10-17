@@ -15,7 +15,7 @@ class HeaterPID {
     //~HeaterPID();
     void begin(const int _relayPin);
     void update();
-    void requestAutoTune();
+    void triggerAutoTune();
 
   private:
     PID* pid;
