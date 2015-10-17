@@ -36,6 +36,13 @@ void HeaterPID::update() {
       double kp = aTune->GetKp();
       double ki = aTune->GetKi();
       double kd = aTune->GetKd();
+      dbgStream->println("Autotune done.");
+      dbgStream->print("kp: ");
+      dbgStream->println(kp);
+      dbgStream->print("ki: ");
+      dbgStream->println(ki);
+      dbgStream->print("kd: ");
+      dbgStream->println(kd);
       pid->SetTunings(kp,ki,kd);
       settings->setKp(kp);
       settings->setKi(ki);
