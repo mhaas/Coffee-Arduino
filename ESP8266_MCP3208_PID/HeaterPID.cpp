@@ -4,6 +4,7 @@
 HeaterPID::HeaterPID(SettingsStorage* _settings, Stream* _dbgStream) {
   settings = _settings;
   dbgStream = _dbgStream;
+  autoTuneRequested = false;
 }
 
 void HeaterPID::begin(const int _relayPin) {
@@ -24,10 +25,25 @@ void HeaterPID::begin(const int _relayPin) {
   // turn the PID on
   // TODO: initialize the temperature sensor variables
   pid->SetMode(AUTOMATIC);
-
 }
 
 void HeaterPID::update() {
+
+  if (autoTuneRequested) {
+    if (aTune->Runtime() != 0) {
+      // done auto-tuning
+      autoTuneRequested = false;
+      double kp = aTune->GetKp();
+      double ki = aTune->GetKi();
+      double kd = aTune->GetKd();
+      pid->SetTunings(kp,ki,kd);
+      settings->setKp(kp);
+      settings->setKi(ki);
+      settings->setKd(kd);
+      free(aTune);
+    }
+  }
+
   pid->Compute();
 
   // TODO: what is the sample rate of the PID?
@@ -55,8 +71,21 @@ void HeaterPID::update() {
   else {
     digitalWrite(relayPin, RELAY_ON);
   }
-
-
 }
+
+void HeaterPID::requestAutoTune() {
+  aTune = new PID_ATune(settings->getCurrentTemperature(), settings->getDesiredTemperature());
+  // 0: PI, 1: PID
+  aTune->SetControlType(0);
+  // TODO: 0.5 is probably a good value for the noiseband, but
+  // we might want to make that configurable
+  // aTune->SetNoiseBand(0.5);
+  // TODO: find good values for these
+  // aTune->SetLookbackSec(10);
+  // aTune->SetOutputStep(30);
+  autoTuneRequested = true;
+}
+
+
 
 

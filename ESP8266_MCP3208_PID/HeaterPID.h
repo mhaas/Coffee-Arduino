@@ -4,7 +4,10 @@
 
 #include <Arduino.h>
 #include "SettingsStorage.h"
-#include <../Arduino-PID-Library/PID_v1.h>
+#include <PID_v1.h>
+#include <PID_AutoTune_v0.h>
+
+
 
 class HeaterPID {
   public:
@@ -12,10 +15,13 @@ class HeaterPID {
     //~HeaterPID();
     void begin(const int _relayPin);
     void update();
+    void requestAutoTune();
 
   private:
     PID* pid;
+    PID_ATune* aTune;
     SettingsStorage* settings;
+    bool autoTuneRequested;
     
     /** Set the window size for the time proportioning control.
  *  See the original PID_Relayoutput example.

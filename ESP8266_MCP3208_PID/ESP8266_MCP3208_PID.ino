@@ -18,6 +18,9 @@
 #include <MCP3208.h>
 
 #include <PID_v1.h>
+// Make sure that the library is in the correct location and not located in a
+// subdirectory (as it is in the git repo)
+#include <PID_AutoTune_v0.h>
 
 #include <High_Temp_MCP320x.h>
 

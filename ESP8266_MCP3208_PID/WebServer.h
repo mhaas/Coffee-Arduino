@@ -15,7 +15,6 @@ class WebServer {
 
   public:
     WebServer(SettingsStorage* settings);
-    //~WebServer();
     void begin();
     void update();
 
