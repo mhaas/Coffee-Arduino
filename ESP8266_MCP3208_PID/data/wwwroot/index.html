@@ -13,7 +13,7 @@
         margin-bottom: 1px;
       }
     </style>
-    <script type="text/javascript" src="smoothie-15fc4b62f5b23c8d5dd1784c820ae73f341626e6.js"></script>
+    <script type="text/javascript" src="smoothie.js"></script>
     <script>
     "use strict";
 
@@ -42,8 +42,7 @@
                     dLine.append(time, data.kd);
                 }
             }
-            // TODO: use correct URL
-            request.open("GET", "http://192.168.0.132/get", true);
+            request.open("GET", "/get", true);
             request.send(null);
         }
         
