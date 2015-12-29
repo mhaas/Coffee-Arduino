@@ -41,8 +41,8 @@
 /**
  * Some configuration constants
  */
-const char *SSID = "TimeyWimey";
-const char *PASSWORD = "dergelbeundderblaue";
+const char *SSID = "SSID";
+const char *PASSWORD = "pass";
 const byte LED_PIN = 0;
 const byte HEATER_RELAY_PIN = 5;
 const byte SPI_CS_PIN = 16;
