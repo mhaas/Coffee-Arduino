@@ -22,6 +22,9 @@ class WebServer {
   private:
     const char* DESIRED_TEMPERATURE_KEY = "desired_temp";
     const char* TEMP_OFFSET_KEY = "temp_offset";
+    const char* KP_KEY = "kp";
+    const char* KI_KEY = "ki";
+    const char* KD_KEY = "kd";
     const int HTTPD_PORT = 80;
     SettingsStorage* settings;
     ESP8266WebServer httpd;

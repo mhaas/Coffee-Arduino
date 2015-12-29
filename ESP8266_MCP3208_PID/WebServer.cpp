@@ -9,8 +9,8 @@ WebServer::WebServer(SettingsStorage* _settings) {
 }
 
 /**
- * Initialize webserver.
- */
+   Initialize webserver.
+*/
 
 void WebServer::begin() {
 
@@ -50,14 +50,19 @@ void WebServer::handleSet() {
 
     if (key == DESIRED_TEMPERATURE_KEY)  {
       settings->setDesiredTemperature(value.toFloat());
-
     } else if (key == TEMP_OFFSET_KEY) {
       settings->setTempOffset(value.toFloat());
+    } else if (key == KP_KEY) {
+      settings->setKp(value.toFloat());
+    } else if (key == KI_KEY) {
+      settings->setKi(value.toFloat());
+    } else if (key == KD_KEY) {
+      settings->setKd(value.toFloat());
     } else {
       valid = false;
     }
-     
-     if (valid) {
+
+    if (valid) {
       msg += "Processed key: ";
       msg += key;
       msg += ", value:";
@@ -66,9 +71,11 @@ void WebServer::handleSet() {
     } else {
       msg += "Invalid key: ";
       msg += key;
-      fail = true;
     }
+
+    fail &= valid;
   }
+
   if (fail) {
     httpd.send(500, "text/plain", msg);
   } else {

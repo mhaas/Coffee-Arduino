@@ -22,7 +22,6 @@ void SettingsStorage::begin() {
   if (strncmp(this->storage.configVersion, CONFIG_VERSION, CONFIG_VERSION_LENGTH) != 0) {
     // no config found  - write default config from header file into EEPROM
     EEPROM.put(CONFIG_DATA_OFFSET, this->storage);
-    // TODO: commit() is not available on all Arduinos (?)
     EEPROM.commit();
   }
   // Load config from EEPROM
