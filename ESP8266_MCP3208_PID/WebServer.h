@@ -17,10 +17,11 @@ class WebServer {
     WebServer(SettingsStorage* settings);
     void begin();
     void update();
-    void addTrigger(char* uri, ESP8266WebServer::THandlerFunction trigger);
+    void addTrigger(const char* uri, ESP8266WebServer::THandlerFunction trigger);
 
   private:
     const char* DESIRED_TEMPERATURE_KEY = "desired_temp";
+    const char* TEMP_OFFSET_KEY = "temp_offset";
     const int HTTPD_PORT = 80;
     SettingsStorage* settings;
     ESP8266WebServer httpd;

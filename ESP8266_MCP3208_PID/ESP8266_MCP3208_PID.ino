@@ -1,7 +1,7 @@
 /**
  * 
- * Initial sketch for a PID-controlled heater
- * Untested!
+ * A http-enabled PID controller for espresso machines.
+ *
  */
 
 
@@ -61,7 +61,7 @@ void setup() {
   // Connect URI-based triggers
   // While global settings are handled via the SettingsStorage registry, simple void functions are
   // connected to the web server via callbacks
-  //httpd.addTrigger("/trigger_autotune", std::bind(&HeaterPID::triggerAutoTune, pid));
+  httpd.addTrigger("/trigger_autotune", std::bind(&HeaterPID::triggerAutoTune, pid));
   httpd.begin();
   wifi.begin(SSID, PASSWORD);
   pid.begin(HEATER_RELAY_PIN);

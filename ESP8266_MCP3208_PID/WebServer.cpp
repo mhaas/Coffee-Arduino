@@ -46,8 +46,18 @@ void WebServer::handleSet() {
     key = httpd.argName(i);
     value = httpd.arg(i);
 
+    bool valid = true;
+
     if (key == DESIRED_TEMPERATURE_KEY)  {
       settings->setDesiredTemperature(value.toFloat());
+
+    } else if (key == TEMP_OFFSET_KEY) {
+      settings->setTempOffset(value.toFloat());
+    } else {
+      valid = false;
+    }
+     
+     if (valid) {
       msg += "Processed key: ";
       msg += key;
       msg += ", value:";
@@ -103,7 +113,7 @@ void WebServer::handleTrigger(ESP8266WebServer::THandlerFunction trigger) {
 }
 
 // Execute a callback if the given uri is requested
-void WebServer::addTrigger(char* uri, ESP8266WebServer::THandlerFunction trigger) {
+void WebServer::addTrigger(const char* uri, ESP8266WebServer::THandlerFunction trigger) {
   httpd.on(uri, std::bind(&WebServer::handleTrigger, this, trigger));
 }
 
