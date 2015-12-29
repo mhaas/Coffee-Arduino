@@ -12,9 +12,6 @@
 
 #include "SettingsStorage.h"
 
-//#include <../Grove_HighTemp_Sensor/High_Temp_MCP320x.h>
-
-
 
 class TempSensor {
 

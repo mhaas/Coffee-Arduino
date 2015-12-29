@@ -6,28 +6,6 @@
 
 
 
-// Explicitly include dependencies of included libraries so that
-// linking works
-#include <ESP8266WiFi.h>
-#include <WiFiClient.h>
-#include <ESP8266WebServer.h>
-
-#include <FS.h>
-
-#include <SPI.h>
-#include <MCP3208.h>
-
-#include <PID_v1.h>
-// Make sure that the library is in the correct location and not located in a
-// subdirectory (as it is in the git repo)
-#include <PID_AutoTune_v0.h>
-
-#include <High_Temp_MCP320x.h>
-
-#include <ArduinoJson.h>
-
-#include <EEPROM.h>
-
 #include "SettingsStorage.h"
 #include "WebServer.h"
 #include "TempSensor.h"

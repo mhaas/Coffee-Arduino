@@ -1,4 +1,4 @@
-#include <../ArduinoJson/include/ArduinoJson.h>
+#include <ArduinoJson.h>
 
 #include "WebServer.h"
 #include <Arduino.h>

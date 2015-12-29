@@ -1,5 +1,5 @@
 #include "SettingsStorage.h"
-#include "../EEPROM/EEPROM.h"
+#include <EEPROM.h>
 
 
 // The config version is checked to see if a (current) configuration
