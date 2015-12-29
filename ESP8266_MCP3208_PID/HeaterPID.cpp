@@ -84,12 +84,8 @@ void HeaterPID::triggerAutoTune() {
   aTune = new PID_ATune(settings->getCurrentTemperature(), settings->getDesiredTemperature());
   // 0: PI, 1: PID
   aTune->SetControlType(0);
-  // TODO: 0.5 is probably a good value for the noiseband, but
-  // we might want to make that configurable
-  // aTune->SetNoiseBand(0.5);
-  // TODO: find good values for these
-  // aTune->SetLookbackSec(10);
-  // aTune->SetOutputStep(30);
+  // TODO: there are parameters which look interesting, like
+  // SetNoiseBand and SetLookbackSec. The defaults look useful.
   autoTuneRequested = true;
 }
 
